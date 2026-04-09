@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Site utilisateur</title>
+</head>
+<body>
+
+<h2>Inscription</h2>
+<input id="pseudo" placeholder="Pseudo"><br>
+<input id="age" placeholder="Age"><br>
+<input id="sexe" placeholder="Sexe"><br>
+<input id="ville" placeholder="Ville"><br>
+<input id="password" type="password" placeholder="Mot de passe"><br>
+<button onclick="register()">S'inscrire</button>
+
+<h2>Connexion</h2>
+<input id="loginPseudo" placeholder="Pseudo"><br>
+<input id="loginPassword" type="password" placeholder="Mot de passe"><br>
+<button onclick="login()">Se connecter</button>
+
+<script>
+const API = "https://TON-BACKEND.onrender.com";
+
+function register() {
+  fetch(API + "/register", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      pseudo: pseudo.value,
+      age: age.value,
+      sexe: sexe.value,
+      ville: ville.value,
+      password: password.value
+    })
+  }).then(() => alert("Compte créé"));
+}
+
+function login() {
+  fetch(API + "/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      pseudo: loginPseudo.value,
+      password: loginPassword.value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    localStorage.setItem("token", data.token);
+    alert("Connecté !");
+  });
+}
+</script>
+
+</body>
+</html>
